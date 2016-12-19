@@ -12,22 +12,25 @@ exports.handler = (event, context, callback) => {
 
 function check(callback) {
   request(url, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log(body) // Show the HTML for the Google homepage. 
+    if (error) {
+      console.log("Got error! Will call " + lambdaOnFailure, error)
+      callFailureLambda(callback)      
+    } else if (response.statusCode != 200) {
+      console.log("Got status code " + response.statusCode + ". Will call " + lambdaOnFailure)
+      callFailureLambda(callback)      
+    } else {
       if (body == expectedResponse) {
         console.log("Got expected response :)")
         callback(null, "Got expected response: " + body)
       } else {
-        console.log("Got unexpected response! Will call " + lambdaOnFailure)
+        console.log("Got unexpected response! Will call " + lambdaOnFailure, body)
         callFailureLambda(callback)
-      }       
+      }             
     }
   })
 }
 
 function callFailureLambda(callback) {
-  //callback(null, "Pretending to call lambda")
-  
   var accessKeyId = "AKIAJMJQ3RR2QR2UDYMA"
   var secretAccessKey = "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"
   
@@ -40,7 +43,7 @@ function callFailureLambda(callback) {
   lambda.invoke({
     FunctionName: lambdaOnFailure
   }, function(error, data) {
-    if (error) {
+    if (error) {      
       callback(error, null)
     } else {
       callback(null, "Watchdog detected a problem! Calling " + lambdaOnFailure)
