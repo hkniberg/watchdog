@@ -1,0 +1,24 @@
+{
+  "name": "watchdog",
+  "version": "1.0.0",
+  "description": "A lambda that watches a URL and triggers another lambda if the response differs from the expected.",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.7.15",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hkniberg/watchdog.git"
+  },
+  "author": "hkniberg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hkniberg/watchdog/issues"
+  },
+  "homepage": "https://github.com/hkniberg/watchdog#readme"
+}
